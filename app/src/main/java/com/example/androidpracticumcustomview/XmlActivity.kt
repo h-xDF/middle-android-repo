@@ -15,22 +15,24 @@ class XmlActivity : ComponentActivity() {
     }
 
     private fun startXmlPracticum() {
-        val customContainer = CustomContainer(this)
+        val customContainer =
+            CustomContainer(
+                this, durationTransformAnimated = 2000L, durationAlphaAnimated = 5000L
+            )
         setContentView(customContainer)
         customContainer.setOnClickListener {
             finish()
         }
 
         val firstView = TextView(this).apply {
-            // TODO
-            // ...
+            text = context.getString(R.string.text_res_1)
         }
 
         val secondView = TextView(this).apply {
-            // TODO
-            // ...
+            text = context.getString(R.string.text_res_2)
         }
 
+        customContainer.addView(firstView)
         // Добавление второго элемента через некоторое время (например, по задержке)
         Handler(Looper.getMainLooper()).postDelayed({
             customContainer.addView(secondView)
