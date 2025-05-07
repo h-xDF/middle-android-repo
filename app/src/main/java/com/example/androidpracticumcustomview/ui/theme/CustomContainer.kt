@@ -6,15 +6,31 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.core.view.children
+import com.example.androidpracticumcustomview.R
 
 class CustomContainer @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
-    var durationAlphaAnimated: Long = 2000L,
-    var durationTransformAnimated: Long = 5000L
 ) : FrameLayout(context, attrs) {
+
+    private var durationAlphaAnimated: Int = 2000
+    private var durationTransformAnimated: Int = 5000
 
     init {
         setWillNotDraw(false)
+        val arrayProperties = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.CustomContainer,
+            0,
+            R.style.CustomContainerDef
+        )
+        try {
+            durationAlphaAnimated =
+                arrayProperties.getInt(R.styleable.CustomContainer_duration_alpha_animated, 2000)
+            durationTransformAnimated =
+                arrayProperties.getInt(R.styleable.CustomContainer_duration_transformY_animated, 5000)
+        } finally {
+            arrayProperties.recycle()
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -54,16 +70,27 @@ class CustomContainer @JvmOverloads constructor(
                 childLeft + width,
                 childTop + width
             )
-            if (child.alpha == 0f) {
-                val translate = (this.measuredHeight / 4).toFloat()
-                child.animate()
-                    .alpha(1f)
-                    .setDuration(durationAlphaAnimated).start()
-                child.animate()
-                    .translationY(if (i == 0) -translate else translate)
-                    .setDuration(durationTransformAnimated).start()
-            }
 
+            val translate = (this.measuredHeight / 4).toFloat()
+
+            child.animate()
+                .alpha(1f)
+                .setDuration(durationAlphaAnimated.toLong()).start()
+            child.animate()
+                .translationY(if (i == 0) -translate else translate)
+                .setDuration(durationTransformAnimated.toLong()).start()
+
+            // Вариант с AnimatorSet
+
+//            val animate1 = ObjectAnimator.ofFloat(child, "alpha",  1f)
+//                .setDuration(durationAlphaAnimated.toLong())
+//            val animate2 = ObjectAnimator.ofFloat(child, "translationY", if (i == 0) -translate else translate)
+//                .setDuration(durationTransformAnimated.toLong())
+//
+//            AnimatorSet().apply {
+//                playTogether(animate1, animate2)
+//                start()
+//            }
         }
     }
 
@@ -72,6 +99,6 @@ class CustomContainer @JvmOverloads constructor(
         child.apply {
             alpha = 0f
         }
-        this.addView(child, childCount)
+        super.addView(child)
     }
 }

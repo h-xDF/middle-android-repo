@@ -15,11 +15,12 @@ class XmlActivity : ComponentActivity() {
     }
 
     private fun startXmlPracticum() {
-        val customContainer =
-            CustomContainer(
-                this, durationTransformAnimated = 2000L, durationAlphaAnimated = 5000L
-            )
+
+        val customContainer = CustomContainer(this)
         setContentView(customContainer)
+        // test for xml example
+        //setContentView(R.layout.xml_activity)
+
         customContainer.setOnClickListener {
             finish()
         }
