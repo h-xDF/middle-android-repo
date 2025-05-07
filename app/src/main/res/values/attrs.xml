@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomContainer">
+        <attr name="duration_alpha_animated" format="integer"/>
+        <attr name="duration_transformY_animated" format="integer" />
+    </declare-styleable>
+</resources>

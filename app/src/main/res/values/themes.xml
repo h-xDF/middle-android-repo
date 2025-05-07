@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.AndroidPracticumCustomView" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="CustomContainerDef" parent="Theme.AndroidPracticumCustomView">
+        <item name="duration_alpha_animated">2000</item>
+        <item name="duration_transformY_animated">5000</item>
+    </style>
 </resources>
